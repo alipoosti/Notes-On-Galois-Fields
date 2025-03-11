@@ -1,0 +1,769 @@
+\documentclass[12pt]{article}
+\renewcommand{\baselinestretch}{1}
+
+\usepackage{url}
+\usepackage{amsmath,amssymb}
+\usepackage{theorem}
+\usepackage{fullpage}
+\usepackage{xspace}
+\usepackage{xcolor}
+
+\usepackage{hyperref}
+\usepackage{tabu}
+\usepackage{tabulary}
+\usepackage{multirow}
+
+\usepackage{tikz}
+% TikZ libraries `calc` needed now to tweak bracket.
+\usetikzlibrary{backgrounds,fit,decorations.pathreplacing,calc}
+\usetikzlibrary{shapes}
+\usetikzlibrary{circuits.logic.US} 
+\usetikzlibrary{patterns} 
+
+%%%%%%%%% Theorems %%%%%%%%%
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}{Example}
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{fact}[definition]{Fact}
+\newtheorem{remark}[definition]{Remark}
+
+\newenvironment{proof}{\begin{trivlist}\item[]{\flushleft\bf Proof }}
+{\qed\end{trivlist}}
+
+%%%%%%%%%%%% MATH %%%%%%%%%%%%
+
+\usepackage[euler-hat-accent]{eulervm}
+
+\newcommand{\ket}[1]{\ensuremath{|{#1}\rangle}}
+\newcommand{\bra}[1]{\ensuremath{\langle{#1}|}}
+\newcommand{\inner}[2]{\ensuremath{\langle{#1}|{#2}\rangle}}
+\newcommand{\tinner}[3]{\ensuremath{\langle{#1}|{#2}|{#3}\rangle}}
+\newcommand{\op}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\id}{\ensuremath{\mathsf{1}}}
+
+\newcommand{\proj}{\ensuremath{\op{\Pi}}}
+\newcommand{\tensor}{\otimes}
+
+\newcommand{\gand}{\ensuremath{\mathsf{AND}}}
+\newcommand{\gor}{\textsf{or}}
+\newcommand{\cnot}{\textsf{cnot}}
+\newcommand{\swap}{\textsf{swap}}
+\newcommand{\tof}{\textsf{Tof}}
+\newcommand{\cz}{\textsf{controlled}\textnormal{-}\op{Z}}
+
+\newcommand{\nth}[1]{\ensuremath{#1^{\textup{th}}}}
+
+\newcommand{\complex}{\mathbb C}
+\newcommand{\integers}{\mathcal{N}}
+\newcommand{\zo}{\{0,1\}}
+
+%%%% Added by Ali %%%%%
+
+\usepackage{dsfont}
+\newcommand{\ZZ}{\mathds{Z}}
+\newcommand{\RR}{\mathds{R}}
+\newcommand{\Zn}[1]{\mathds{Z}/#1\mathds{Z}}
+
+\newcommand{\ii}{\mathrm{i}}  %complex i
+\newcommand{\ee}{\mathrm{e}}  % exponential
+\newcommand{\expo}[1]{\mathrm{e}^{#1}} %e^(.)
+\newcommand{\expoi}[1]{\expo{\ii #1}} %e^i(.)
+\newcommand{\IM}{\mathds{1}}  % identity matrix
+
+
+\newcommand{\tr}[1]{\mathrm{Tr}\left\{#1\right\}} %Trace
+\newcommand{\pr}[1]{\mathrm{Pr}\left\{#1\right\}} %Probability
+\newcommand{\ev}[1]{\mathbb{E}\{#1\}}  %Expected value
+
+%\newcommand{\ent}[1]{\mathbb{H}#1}  %Entropy
+\newcommand{\ent}[1]{\boldsymbol{\mathrm{{H}}}\left(#1\right)}  %Entropy
+\newcommand{\mi}[1]{\boldsymbol{\mathrm{I}}\left(#1\right)}  %Mutual Information
+
+\newcommand{\gf}[1]{\mathds{GF}\left(#1\right)} %Galois Field
+
+\newcommand{\ifff}{if and only if}
+\newcommand{\bbar}{\ensuremath{\|}}
+\newcommand{\rv}[1]{{#1}}
+\newcommand{\F}{\ensuremath{\mathds{F}}}
+\newcommand{\N}{\mathds{N}}
+\newcommand{\eps}{\epsilon}
+\renewcommand{\varepsilon}{\epsilon}
+\newcommand{\veps}{\epsilon}
+\newcommand{\gam}{\gamma}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathds{Z}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\E}{\mathcal{E}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\Ex}{\mathds{E}}
+\newcommand{\supp}{\mathsf{supp}}
+\newcommand{\List}{\mathsf{LIST}}
+\newcommand{\eqdef}{:=}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{{M}}
+\newcommand{\cZ}{\mathcal{Z}}
+\newcommand{\Cmp}{\mathds{C}} % Complex Numbers
+\newcommand{\PI}{p}
+%\newcommand{\zo}{\{0,1\}}
+
+\newcommand{\dist}{{\mathsf{dist}}}
+\newcommand{\rdist}{{\mathsf{rdist}}}
+\newcommand{\rk}{{\mathsf{rank}}}
+\newcommand{\poly}{{\mathsf{poly}}}
+\newcommand{\qpoly}{{\mathsf{quasipoly}}}
+\newcommand{\tre}{{\mathsf{Tre}}}
+\newcommand{\shu}{{\mathsf{SU}}}
+\newcommand{\Exp}{\mathbb{E}}
+\newcommand{\wgt}{\mathsf{wgt}}
+\newcommand{\bou}{\mathsf{AExt}}
+\newcommand{\kz}{\mathsf{SFExt}}
+\newcommand{\extr}{\mathsf{Ext}}
+\newcommand{\subt}{\setminus}
+\newcommand{\sm}{\setminus}
+\newcommand{\agr}{\mathsf{Agr}}
+\newcommand{\TRASH}[1]{}
+\newcommand{\Th}{\text{th}}
+\newcommand{\Nd}{\text{nd}}
+\newcommand{\St}{\text{st}}
+\newcommand{\Rd}{\text{rd}}
+
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+\providecommand{\Vec}[1]{#1}
+\providecommand{\eqref}[1]{(\ref{#1})}
+
+%%%%% Comments and Notes
+
+\newcommand{\refneeded}{\textcolor{red}{[Ref needed]}}
+\newcommand{\defneeded}{\textcolor{red}{(Def needed)}}
+\newcommand{\calneeded}{\textcolor{red}{(Calculation needed)}}
+\newcommand{\prvneeded}{\textcolor{red}{(Needs Proof)}}
+\newcommand{\xplneeded}{\textcolor{red}{(Needs More explanation)}}
+
+\newcommand{\mycmnt}[2]{\colorbox{yellow!80}{\parbox{0.9\textwidth}{\textbf{Comment by #1:} \textit{#2}}}\\}
+\newcommand{\mytodo}[1]{\textcolor{blue}{\textbf{TO DO:} #1 }}
+
+%%%%%%%%%%%%%%%%%
+
+%======================================================================
+
+\begin{document}
+
+\begin{center}
+%\LARGE PHYS 677, Project Report \\[.2cm]
+\LARGE \textbf{Notes on Galois Fields} \\[0.5cm] 
+\end{center}
+
+\begin{center}
+	\large {Alireza Poostindouz}
+\end{center}
+
+
+\section{Basics}
+
+We start with some basic definitions and notions. 
+
+\begin{definition}[Monoid]
+	Suppose that $S$ is a set and operation `$\cdot$'  is some binary operation $\cdot : S \times S \mapsto S$, called multiplication. Then $(S,\cdot)$ is a \textit{monoid} if it satisfies the following axioms:
+	\begin{enumerate}
+		\item \textbf{(Closure)}\\
+		$S$ is closed under multiplication, that is:
+		$$a\cdot b \in S\qquad \forall a,b\in S$$
+		\item \textbf{ (Associativity) }\\
+		$$a\cdot \left(b\cdot c\right) =  \left(a\cdot b\right) \cdot c \qquad \forall a,b,c\in S$$
+		\item \textbf{ (Identity element) }\\
+		There exists an element $e$ in $S$ such that
+		$$a\cdot e = e \cdot a = a \qquad \forall a \in S$$
+	\end{enumerate}
+\end{definition}
+
+\begin{example}
+	The set $S=\{0, 1, 2, 3, 4, 5\}$ with multiplication modulo $6$ is a monoid. It has closure, associativity and the identity element is $1$.
+	For example you can see that $4\cdot 5 = 20 = 3\times 6 + 2 = 2 \mod 6$ and $2$ belongs to $S$. 
+\end{example}
+
+
+\begin{definition}[Group]
+	Suppose that $G$ is a set and operation `$\cdot$'  is some binary operation $\cdot : G \times G \mapsto G$, called multiplication. Then $(G,\cdot)$ is a group if it satisfies the following axioms:
+	\begin{enumerate}
+		\item \textbf{(Closure)}\\
+		$G$ is closed under multiplication, that is:
+		$$a\cdot b \in G\qquad \forall a,b\in G$$
+		\item \textbf{ (Associativity) }\\
+		$$a\cdot \left(b\cdot c\right) =  \left(a\cdot b\right) \cdot c \qquad \forall a,b,c\in G$$
+		\item \textbf{ (Identity element) }\\
+		There exists an element $e$ in $G$ such that
+		$$a\cdot e = e \cdot a = a \qquad \forall a \in G$$
+		\item  \textbf{(Inverse element)}\\
+		For each $a$ in $G$, there exists an element $a^{-1}$ in $G$ such that 
+		$$a\cdot a^{-1} = a^{-1} \cdot a = e,$$ where $e$ is the identity element.
+	\end{enumerate}
+\end{definition}
+
+
+\begin{example}
+	The set $S=\{0, 1, 2, 3, 4, 5\}$ with multiplication modulo $6$ is \textit{not} a group. It has closure, associativity and the identity element is $1$. But for some elements the inverse does not exist. For example, there is no element $x$ in $S$ such that $2\cdot x = x \cdot 2 = 1 \mod 6$. 
+\end{example}
+
+
+\begin{example}
+	The set $S=\{0, 1, 2, 3, 4, 5\}$ with addition modulo $6$ is a group. It has closure, associativity and the identity element is $0$. And also for any element $x$ in $S$ the exist an ``addition inverse'', denoted by $-x$ such that $x \cdot -x = x \cdot -x = 0 \mod 6$. For example, addition inverse of $1$ is $5$ as $1+5 = 6 = 0 \mod 6$, or the addition inverse of $2$ is $4$ as $2+4  = 0 \mod 6$.
+\end{example}
+
+
+\begin{example}
+	For any prime number $p$, the set $\{1, 2, 3, \ldots , p-1\}$ forms a group with multiplication modulo $p$. For example, for $p=5$, the inverse of $3$ is $2$, as $3 \cdot 2 = 1 \mod 5$. Note that if we include $0$ in the set, then we cannot find an inverse for $0$.
+\end{example}
+
+
+\begin{definition}[Abelian Group]
+	Suppose that $G$ is a set and operation `$\cdot$'  is some binary operation $\cdot : G \times G \mapsto G$, called multiplication. Then $(G,\cdot)$ is an abelian group (commutative group) if it satisfies the following axioms:
+	\begin{enumerate}
+		\item \textbf{(Closure)}\\
+		$G$ is closed under multiplication, that is:
+		$$a\cdot b \in G\qquad \forall a,b\in G$$
+		\item \textbf{ (Associativity) }\\
+		$$a\cdot \left(b\cdot c\right) =  \left(a\cdot b\right) \cdot c \qquad \forall a,b,c\in G$$
+		\item \textbf{ (Identity element) }\\
+		There exists an element $e$ in $G$ such that
+		$$a\cdot e = e \cdot a = a \qquad \forall a \in G$$
+		\item  \textbf{(Inverse element)}\\
+		For each $a$ in $G$, there exists an element $a^{-1}$ in $G$ such that 
+		$$a\cdot a^{-1} = a^{-1} \cdot a = e,$$ where $e$ is the identity element.
+		\item  \textbf{(Commutativity)}\\
+		$$a\cdot b = b \cdot a \qquad \forall a,b \in G$$
+	\end{enumerate}
+\end{definition}
+
+\begin{example}
+	The set $S=\{0, 1, 2, 3, 4, 5\}$ with addition modulo $6$ is also an abelian group.
+\end{example}
+
+
+
+
+\begin{definition}[Ring]
+	Suppose that $R$ is a set and 2 binary operations, multiplication, `$\cdot$', and addition, `$+$', are defined. Then $(R, +, \cdot)$ is a ring if it satisfies the following axioms:
+	\begin{enumerate}
+		\item $R$ is an abelian group under addition.
+		\item $R$ is a monoid  under multiplication.
+		\item Multiplication is {distributive} with respect to addition. That is
+		\begin{align*}
+			a \cdot (b + c) &= (a \cdot b) + (a \cdot c) &\forall a, b, c \in R  \qquad &\mathrm{\textbf{(left distributivity)}} \\
+			(b + c) \cdot a &= (b \cdot a) + (c \cdot a) &\forall a, b, c \in R  \qquad &\mathrm{\textbf{(right distributivity)}}.
+		\end{align*}
+	\end{enumerate}
+\end{definition}
+
+
+\begin{example}
+	The set $\Zn{n}=\{0,1,\ldots, n-1 \}$ with addition and multiplication modulo $n$ forms a ring. In fact it is a commutative ring as $a\cdot b=b\cdot a$ for any $a,b\in \Zn{n}$.
+\end{example}
+
+\begin{definition}[Field]
+	Let $F$ be a set with 2 binary operations, multiplication, `$\cdot$', and addition, `$+$'. Then $(F,+,\cdot)$ forms a field if the following conditions hold:
+	\begin{enumerate}
+		\item  $(F,+,\cdot)$ is a ring.
+		\item  $(F\backslash\{0\},\cdot)$ is an abelian (commutative) group, where $0$ is the additive identity. 
+	\end{enumerate}
+\end{definition}
+
+Note that commonly for a given finite field $(F,+,\cdot)$  with $0$ as its additive identity, we call $(F,+)$ the ``\textit{additive group}'' and $(F\backslash\{0\},\cdot)$ the ``\textit{multiplicative group}'' of $F$. 
+
+\begin{theorem}
+	If $p$ is a prime, then $\Zn{p}=\{0,1,2,\ldots, p-1 \}$ is a field.
+\end{theorem}
+
+It is very easy to see that $\Zn{p}$ with addition and multiplication modulo $p$ will form a field. Conventionally if a field is finite with $p$ elements we denote it with $\mathds{F}_p$ or $\gf{p}$ (Galois Field). 
+
+\begin{example}[$\gf{2}$]
+	The simplest example would be $\gf{2}$ where the elements are from $\Zn{2}= \{0,1\}$ and the addition and multiplication are done modulo $2$. In this case, the addition is in fact the $\mathsf{XOR}$ operation and the multiplication is the $\mathsf{AND}$ operation. \\
+	
+	Below, you can see the addition and multiplication tables for $\gf{2}$. The addition identity here is $0$ as $0+x = 0 + x = x \mod 2$ for all $x\in\Zn{2}$. Also, it is easy to see that the multiplication identity (unit element) is $1$, as $1 \cdot x = x \cdot 1 = x \mod 2$ for all $x\in\Zn{2}$. \\
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|m{3em}|m{3em}|m{3em}||m{3em}|m{3em}|m{3em}|}
+			 
+			\multicolumn{3}{c||}{Modulo 2 addition} &   \multicolumn{3}{c}{Modulo 2 multiplication}    \\  [0.5ex]
+			\hline\hline 
+			+ & 0 & 1 & $\cdot$ & 0 & 1 \\ 
+			\hline 
+			0 & 0 & 1 & 0 & 0 & 0 \\ 
+			\hline 
+			1 & 1 & 0 & 1 & 0 & 1 \\ 
+			\hline 
+		\end{tabular} 
+		\caption{Addition and multiplication tables for $\gf{2}$.}
+	\end{table}
+	
+	
+	
+	
+	Note that in $\gf{2}$ we have
+	\begin{itemize}
+		\item  $-0 = 0$ \qquad (addition inverse)
+		\item  $-1 = 1$ \qquad (addition inverse)
+		\item $1^{-1} = 1$ \qquad (multiplication inverse)
+	\end{itemize}
+and remember that $0$ (the addition identity) does not have a multiplication inverse	in any finite field. 
+	
+	
+	
+\end{example}
+
+\begin{example}[$\gf{3}$]
+	Another simple example is $\gf{3}$ where the elements are from $\Zn{3}= \{0,1,2\}$ and the addition and multiplication are done modulo $3$.\\
+	
+	Below, you can see the addition and multiplication tables for $\gf{3}$. The addition identity here is $0$ as $0+x = 0 + x = x \mod 3$ for all $x\in\Zn{3}$. Also, it is easy to see that the multiplication identity (unit element) is $1$, as $1 \cdot x = x \cdot 1 = x \mod 3$ for all $x\in\Zn{3}$. \\
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|m{2em}|m{2em}|m{2em}|m{2em}||m{2em}|m{2em}|m{2em}|m{2em}|}
+			 
+			\multicolumn{4}{c||}{Modulo 3 addition} &   \multicolumn{4}{c}{Modulo 3 multiplication}    \\  [0.5ex]
+			\hline\hline 
+			+ & 0 & 1 & 2 & $\cdot$ & 0 & 1 & 2\\ 
+			\hline 
+			0 & 0 & 1 & 2 & 0 & 0 & 0 & 0\\ 
+			\hline 
+			1 & 1 & 2 & 0 &   1 & 0 & 1 & 2\\ 
+			\hline 
+			2 & 2 & 0 & 1 &  2 & 0 & 2 & 1\\
+			\hline
+		\end{tabular} 
+		\caption{Addition and multiplication tables for $\gf{3}$.}
+	\end{table}
+	
+	
+	
+	
+	Note that in $\gf{3}$ we have
+	\begin{itemize}
+		\item  $-0 = 0$ \qquad (addition inverse)
+		\item  $-1 = 2$ \qquad (addition inverse)
+		\item  $-2 = 1$ \qquad (addition inverse)
+		\item $1^{-1} = 1$ \qquad (multiplication inverse)
+		\item $2^{-1} = 2$ \qquad (multiplication inverse)
+	\end{itemize}
+	
+	
+	
+	
+	
+\end{example}
+
+
+\begin{example}[$\gf{5}$]
+	To construct $\gf{5}$ we use $\Zn{5}=\{0,1,2,3,4\}$ and addition and multiplication modulo $5$. Below, you can see the addition and multiplication tables for $\gf{5}$.
+\end{example}
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}||m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}|m{1.5em}|}
+		 
+		\multicolumn{6}{c||}{Modulo 5 addition} &   \multicolumn{6}{c}{Modulo 5 multiplication}\\  [0.5ex]
+		\hline\hline 
+		+ & 0 & 1 & 2 & 3 & 4 & $\cdot$ & 0 & 1 & 2 & 3 & 4 \\ 
+		\hline 
+		0 & 0 & 1 & 2 & 3 & 4 & 0 & 0 & 0 & 0 & 0 & 0\\ 
+		\hline 
+		 1 & 1 & 2 & 3 & 4 & 0 & 1 & 0 & 1 & 2 & 3 & 4\\ 
+		\hline 
+		2 & 2 & 3 & 4 & 0 & 1 & 2 & 0 & 2 & 4 & 1 & 3 \\ 
+		\hline 
+		3 & 3 & 4 & 0 & 1 & 2 & 3 & 0 & 3 & 1 & 4 & 2\\ 
+		\hline 
+		4 & 4 & 0 & 1 & 2 & 3 & 4 & 0 & 4 & 3 & 2 & 1\\ 
+		\hline 
+	\end{tabular} 
+\end{table}
+
+Here, we can see that $-x = 5 - x$ for $x\in\Zn{5}$. For example, $-2 = 3$. Also, based on the multiplication table we can find the multiplication inverse, such as $1^{-1} = 1$ and $2^{-1} = 3$. 
+
+
+\subsection{Primitive Element}
+
+
+\begin{definition}
+	Let $x$ be an element of $\gf{p}$. Then the order of $x$ is the smallest positive integer $k$ such that $x^k=1$, where $1$ is the multiplication identity (unit element). 
+\end{definition}
+
+\begin{theorem}
+	Let $x$ be an element of $\gf{p}$ and $x$ is not the addition identity ($x\neq0$). If $k$ is the order of $x$, then $k$ divides $p-1$. 
+\end{theorem}
+
+\begin{example}
+	Consider $\gf{5} = \{0,1,2,3,4\}$. Let's find the order of $2$. Using example 5 we can easily see that: 
+	\begin{align*}
+		2\times 2 = 4, \\
+		4\times 2 = 3, \\
+		3\times 2 = 1.
+	\end{align*} 
+	Meaning that the smallest $k$ such that $2^k = 1$ is $4$, i.e.\ $order(2) = 4$. Now let's find the order of $4$. As $4\times 4 = 1$, we simple see that $order(4) = 2$. 
+\end{example}
+
+\begin{theorem}[Primitive Element]
+	Every $\gf{p}$ has at least one element $\alpha$ with order $(p-1)$, i.e.\ $\alpha^{(p-1)} = 1$, where $1$ is the unit element. In other words  $\alpha$ is the primitive $(p-1)-$th root of unity.\\
+\end{theorem}
+
+\begin{example}
+	As we saw in the previous example we now know that for $\gf{5}$, $2$ is a primitive element as $order(2) = 4$. 
+\end{example}
+
+\begin{definition}
+	Let $(G,\cdot)$ be a group. We say that $x\in G$ is a generator for $G$ if 
+	\begin{align*}
+		\{x^ j \quad \forall j\in \mathds{N} \} = G.
+	\end{align*}
+\end{definition}
+
+\begin{remark}
+	If $\alpha$ is a primitive element for $\gf{p}$ then $\alpha$ is a generator for the multiplicative group of $\gf{p}$.  That is 
+	\begin{align*}
+			\{\alpha^ j \quad \forall j\in \mathds{N} \} = \gf{p}\backslash\{0\},
+	\end{align*}
+	where $0$ is the addition identity. If $p$ is a prime number, then 
+		\begin{align*}
+			\{\alpha^ j \quad \forall j\in \mathds{N} \} = \{1,2,\ldots,p-1\}.
+	   \end{align*}
+	 
+\end{remark}
+
+
+
+\begin{example}
+	We know that for $\gf{5}$, $2$ is a primitive element. Now we observe that:
+	\begin{align*}
+	\{2^ j \quad \forall j\in \mathds{N} \} &= \{2, ~2\times 2, ~2\times 2\times 2,~ 2\times 2\times 2\times 2, ~ \cdots \} \\
+	& = \{2, 4, 3, 1\} = \gf{5}\backslash\{0\} .
+	\end{align*}
+	Remember that $(\gf{5}\backslash\{0\},\cdot)$ is the multiplicative group of $\gf{5}$ and the above observation proves that $2$ is a generator for the multiplicative group of $\gf{5}$. Also we know that $4$ is not a primitive element and so:
+	\begin{align*}
+	\{4^ j \quad \forall j\in \mathds{N} \} &= \{4, ~4\times 4, ~4\times 4\times 4,~ 4\times 4\times 4\times 4, ~ \cdots \} \\
+	& = \{4,1\} \ne \gf{5}\backslash\{0\} .
+	\end{align*}
+\end{example}
+
+
+
+\begin{theorem}
+	For any finite field with $n$ elements, $n$ is either a prime or a prime power.
+\end{theorem}
+
+\begin{example}
+	For $n=6$ there does not exist any $\gf{6}$. For instance, take $\{0,1,\ldots, 5\}$ and modulo $6$ arithmetics. There does not exist an inverse for $2$; therefore, we could not find a construction for $\gf{6}$ and no such thing exists.
+\end{example}
+
+\begin{example}
+	For $n=8$ there exists a construction for a finite field. But, in this case the set $\{0,1,\ldots, 8\}$ and modulo $8$ arithmetics would not work! One can easily see that, for example, the inverse of $4$ does not exist. To find out how to construct $\gf{8}$ we need to learn more about Galois Fields. 
+\end{example}
+
+\newpage
+
+\section{Field Extensions (Construction of $\gf{p^m})$}
+
+
+
+To construct a Galois field $\gf{p^m}$ we need to use the notion of vector spaces and use polynomial arithmetics as well.
+
+\begin{definition}[Vector Space]
+	A set $V$ is a vector space over a field $F$ if 2 binary operations ``vector addition'', `$+: V\times V \mapsto V $', and ``scalar multiplication'', `$\cdot: F\times V \mapsto V $' are defined and the following axioms are satisfied:
+	\begin{enumerate}
+		\item  $V$ is a commutative (abelian) group under vector addition.
+		\item  $V$ is closed under scalar multiplication.
+		\item  $a\cdot (b\cdot v) = (a\cdot b) \cdot v \qquad \forall a,b\in F , \forall v\in V$
+		\item $a\cdot (u + v) = a\cdot u + a\cdot v \qquad \forall a\in F , \forall u,v\in V$
+		\item $(a+b)\cdot v = a\cdot v + b\cdot v \qquad \forall a,b\in F , \forall v\in V$
+		\item $1\cdot v = v \qquad \forall v\in V$, where $1$ is the multiplication identity of $F$. 
+	\end{enumerate}
+\end{definition}
+
+
+\begin{example}
+	For example let's define a vector space with dimension $2$ over $\gf{5}$. We can denote each vector $v \in  V$ by
+	\begin{align*}
+		v = \left[\begin{array}{c}
+		a_v \\ b_v
+		\end{array}\right] \qquad a_v, b_v \in \gf{5}.
+	\end{align*}
+	We can define the vector addition using the addition of $\gf{5}$ (that is addition modulo 5) as the following.
+	For $v_1 = \left[\begin{array}{c} 
+	a_1 \\ b_1
+	\end{array}\right] $ and $v_2 = \left[\begin{array}{c}
+	a_2 \\ b_2
+	\end{array}\right] $ the vector addition is defined as:
+	\begin{align*}
+	v_1 + v_2 = \left[\begin{array}{c}
+	a_1 + a_2 \\ b_1 + b_2
+	\end{array}\right] 	,
+	\end{align*} where in the expressions $a_1 + a_2$ and $b_1 + b_2$, the addition, $+$, is the $\gf{5}$ addition. 
+\end{example}
+
+
+\subsection{Polynomials Over Galois Fields}
+
+
+A polynomial ${P}$  over $\gf{q}$ with degree $n$ is of the following form
+\begin{align*}
+	P = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n,
+\end{align*}
+if all $a_j \in \gf{q}$ and $a_n \ne 0$ where $0$ is the fields addition identity. 
+
+
+\subsubsection{Galois Field Arithmetics of Polynomials}
+
+\begin{definition}
+	The \textbf{addition} of two polynomials $P_1 = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^m$ and $P_2 = b_0 + b_1 x + b_2 x^2 + \cdots + b_n x^n$ over $\gf{q}$ is 
+	\begin{align*}
+		P_1 + P_2 = \sum_{j}^{\max(m,n)} (a_j + b_j) x^j.
+	\end{align*}
+	Note that obviously the addition in expression $(a_j + b_j)$ is the addition of $\gf{q}$.
+\end{definition}
+
+\begin{example}
+	Consider the following two polynomials defined over $\gf{5}$. 
+	\begin{align*}
+		P_1 &= x^7 + 3 x^2 + x \\
+		P_2 &= 4 x^6 + 2 x^2 + x
+	\end{align*}
+	Then we have 
+	\begin{align*}
+		P_1 + P_2 &=  x^7 + 3 x^2 + x + 4 x^6 + 2 x^2 + x \\
+		& = x^7 + 4 x^6 + (3+2) x^2 + (1 + 1) x   \\
+		& = x^7 + 4 x^6 + 2x  .
+	\end{align*}
+	Note that in the last step we used the fact that $3+2 = 0 \mod 5$. 
+\end{example}
+ 
+ \begin{definition}
+ 	The \textbf{subtraction} of two polynomials $P_1 = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^m$ and $P_2 = b_0 + b_1 x + b_2 x^2 + \cdots + b_n x^n$ over $\gf{q}$ is 
+ 	\begin{align*}
+ 		P_1 - P_2  = P_1 + P^{\prime}_2 ,
+ 	\end{align*}
+ 	where $P^{\prime}_2$ is 
+ 	\begin{align*}
+ 		P^{\prime}_2 = (-b_0) + (-b_1) x + (-b_2) x^2 + \cdots + (-b_n) x^n
+ 	\end{align*} with $-b_j$ denotes the additive inverse of $b_j$.
+ \end{definition}
+
+\begin{example}
+	Consider the following two polynomials defined over $\gf{5}$. 
+	\begin{align*}
+	P_1 &= x^7 + 3 x^2 + x \\
+	P_2 &= 4 x^6 + 2 x^2 + x
+	\end{align*}
+	Then for $P_1 - P_2$ we have 
+	\begin{align*}
+	P_1 - P_2 &=  x^7 + 3 x^2 + x + (-4) x^6 + (-2) x^2 + (-1) x \\
+	& = x^7 + 3 x^2 + x + (1) x^6 + (3) x^2 + (4) x \\
+	& = x^7 + x^6 + 4 x^2 .
+	\end{align*}
+\end{example}
+
+
+\begin{remark}
+	Note that for polynomials over $\gf{2}$ the addition and subtraction are identical as the addition and subtraction over $\gf{2}$ are both the same as an $\mathsf{XOR}$ operation. 
+\end{remark}
+
+\begin{definition}
+	The \textbf{multiplication} of two polynomials $P_1 = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^m$ and $P_2 = b_0 + b_1 x + b_2 x^2 + \cdots + b_n x^n$ over $\gf{q}$ is 
+	\begin{align*}
+	P_1 P_2 = \sum_{j} \sum_{k} (a_j \cdot a_k) x^{j+k}.
+	\end{align*}
+	Note that the addition in exponent $x^{j+k}$ is the standard integer addition but the multiplication in $(a_j \cdot a_k)$ is the multiplication of $\gf{q}$.
+\end{definition}
+
+
+\begin{example}
+	Consider the following two polynomials defined over $\gf{2}$. 
+	\begin{align*}
+		P_1 & = x^7 + x^2 + x \\
+		P_2 & = x^6 + x^2 + 1
+	\end{align*}
+	then
+	\begin{align*}
+		P_1 P_2 &= \left(x^7 + x^2 + x \right)   \left(x^6 + x^2 + 1\right) \\
+		& = x^{13} + x^9 + \textcolor{red}{x^7} + x^8 + x^4 + x^2 + \textcolor{red}{x^7} + x^3 + x \\
+		& =  x^{13} + x^9 + x^8 + x^4 + x^3 + x^2  +  x .
+	\end{align*}
+	Note that $1+1=0$ in $\gf{2}$ thus $x^7 + x^7 = 0$.
+\end{example}
+
+
+\begin{definition}
+	Consider two polynomials $P_1 = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^m$ and $P_2 = b_0 + b_1 x + b_2 x^2 + \cdots + b_n x^n$ over $\gf{q}$. Then there are unique polynomials $Q$ and $R$ over $\gf{q}$ such that:
+	\begin{align*}
+		P_1 = Q P_2 + R ,
+	\end{align*} and we call $Q$ the quotient and $R$ remainder of dividing $P_1$ by $P_2$. Also $P_1$ is called the dividend and $P_2$ is the divisor. 
+\end{definition}
+
+\begin{example}
+	The answer to $(x^5 + x^3 + x^2 + x) \div (x^4 + x^3 + 1)$ is
+	$$x^5 + x^3 + x^2 + x = (x^4 + x^3 + 1) (x+1) + (x^2 +x) $$
+	Here $(x+1)$ is the quotient and $(x^2 +x)$ is the remainder. \footnote{To learn how to do the polynomial long divisor watch the following video : \url{https://www.youtube.com/watch?v=H94ma2ofGuc}.}
+\end{example}
+
+If the remainder $R$ in $P_1 \div P_2$ is zero, then we say $P_1$ is divisible by $P_2$; or equivalently we say $P_2$ is a factor of $P_1$.
+
+
+
+
+
+\begin{definition}[Irreducible Polynomial]
+	A polynomial $P$ of degree $m$ defined over some field $\gf{q}$ is called irreducible if $P$ has no divisor polynomials in $\gf{q}$ with degree less than $m$.
+\end{definition}
+
+\begin{definition}[Primitive Polynomials]
+	content...
+\end{definition}
+
+
+
+\subsubsection{Construction of $\gf{2^3}$ from $\gf{2}$}
+
+With the current knowledge that we have, let's try to design a valid construction for $\gf{8}$. We have already observed that the set $\Zn{8} = \{0,1,\ldots,7\}$ together with modulo $8$ arithmetics cannot construct a finite field. (See Example 14). It is very easy to see that simply defining a vector space of dimension $3$ over $\gf{2}$, i.e.\ $v=(a_0 , a_1, a_2)$ with $a_j\in\gf{2}$, together with element--wise binary addition and multiplication will not be enough for constructing a finite field over $8$ elements. 
+
+But, we can use polynomials of degree at most $2 = 3-1$ with coefficients of any polynomial being elements of a corresponding vector $v=(a_0 , a_1, a_2) \in \gf{2}^3$.  
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|m{1em}|m{1em}|m{1em}|}
+		\hline 
+		\# & $a_0 + a_1 x + a_2 x^2$ &  \multicolumn{3}{c|}{$(a_0, a_1, a_1)$}  \\ 
+		\hline \hline 
+		$P_0$ & $0$ & $0$ & $0$ & $0$ \\ 
+		\hline 
+		$P_1$ & $1$ & $1$ & $0$ & $0$ \\ 
+		\hline 
+		$P_2$ & $x$ & $0$ & $1$ & $0$ \\ 
+		\hline 
+		$P_3$ & $x+1$ & $1$ & $1$ & $0$ \\ 
+		\hline 
+		$P_4$ & $x^2$ & $0$ & $0$ & $1$ \\ 
+		\hline 
+		$P_5$ & $x^2+1$ & $1$ & $0$ & $1$ \\ 
+		\hline 
+		$P_6$ & $x^2 + x$ & $0$ & $1$ & $1$ \\ 
+		\hline 
+		$P_7$ & $x^2 + x +1$ & $1$ & $1$ & $1$ \\ 
+		\hline 
+	\end{tabular} 
+	\caption{Defining tentative elements for $\gf{8}$ using polynomials.}
+\end{table}
+
+Now we have to see if polynomial arithmetics together with the set $F = \{P_0 , P_1, \ldots , P_7\}$, defined in the table above, can actually construct a finite field. 
+ 
+\textbf{Addition:} For addition we are lucky and we can solely use the polynomial addition. As we can see, the polynomial addition together with $F$ will create an abelian group $(F, +)$. For example: 
+\begin{align*}
+	P_2 + P_3 & = (x) + (x+1) \\
+	& = 1 = P_1 .
+\end{align*} Or
+\begin{align*}
+P_5 + P_3 & = (x^2 + 1) + (x+1) \\
+& = x^2 + x = P_6 .
+\end{align*}
+
+
+\textbf{Multiplication:} As for the multiplication it might seem in the first glance that using solely the polynomial multiplication will give us closure and all group properties we need for the multiplicative group. For example:
+\begin{align*}
+P_2  P_3 & = (x) (x+1) \\
+& = x^2 + x = P_6 .
+\end{align*} But soon we realize that this will not give us closure! For instance:
+\begin{align*}
+P_4  P_5 & = (x^2)  (x^2+1) \\
+& = x^4 + x^2 \notin F .
+\end{align*}
+
+So to resolve this problem we need to use a polynomial $P^{*}$ of order $3$ and then for the field multiplication ``$P_j \cdot P_k$'', we would take the remainder of $(P_j P_k)\div P^*$. Now this special polynomial $P^*$ cannot be just any polynomial, it has to be an irreducible and in fact a primitive polynomial of degree $3$. Thus, rigorously speaking we can define the field multiplication as follows. For each $P_j$ and $P_k$ in $F$
+\begin{align*}
+	P_j \cdot P_k = \mathsf{Remainder} \left[(P_j P_k)\div P^* \right] ,
+\end{align*} 
+where $P^*$ is a primitive polynomial of degree $3$ over $ 
+\gf{2}. $ Note that $P_j \cdot P_k$ denotes the field multiplication and $(P_j P_k)$
+is the standard polynomial multiplication over $\gf{2}$. \\
+
+Now let's take $P^* = x^3 + x +1$, which is a primitive polynomial over $\gf{2}$. Now for the field multiplication we defined as above and the set $F\backslash\{0\}$ we get the abelian multiplicative group. For example consider the same multiplication we tried last time:
+\begin{align*}
+P_4 \cdot P_5 & =\mathsf{Remainder} \left[ (x^2)  (x^2+1) \div P^* \right]  \\
+& = \mathsf{Remainder} \left[  (x^4 + x^2) \div (x^3 + x +1) \right] \\
+& = x = P_2 \in F .
+\end{align*} Therefore, we have successfully constructed out new field $\gf{8}$ based on a vector spaced defined with polynomials over $\gf{2}$ and some specific polynomial arithmetics. \\
+
+Now to find the primitive element of $F = \gf{8}$ we need to find a polynomial $P_{\alpha} \in F$ such that 
+
+\begin{align*}
+	\{ P_{\alpha}^{j} \quad \forall j\in \mathds{N} \} = F\backslash \{0\} .
+\end{align*}
+ 
+Easily we can observe that for $P_\alpha = P_2 = x$ we get:
+\begin{align*}
+\{ P_{2}^{j} \quad \forall j\in \mathds{N} \} &= \{ x, (x)\cdot(x), (x)\cdot(x)\cdot(x), (x)\cdot(x)\cdot(x)\cdot(x),  \cdots   \} \\
+& = \{x, x^2 , x+1 , x^2 + x , x^2 + x + 1 , x^2+1 , 1 \} \\
+& = F \backslash \{0\} .
+\end{align*}
+
+So we can have our construction table for $\gf{8}$ as the following:
+ 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|m{1em}|m{1em}|m{1em}|}
+		\hline 
+		\# & $\alpha^j$ &$a_0 + a_1 x + a_2 x^2$ &  \multicolumn{3}{c|}{$(a_0, a_1, a_1)$}  \\ 
+		\hline \hline 
+		$P_0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+		\hline 
+		$P_1$ & $\alpha^7$ & $1$ & $1$ & $0$ & $0$ \\ 
+		\hline 
+		$P_2$ & $\alpha^1$ & $x$ & $0$ & $1$ & $0$ \\ 
+		\hline 
+		$P_3$ & $\alpha^3$ & $x+1$ & $1$ & $1$ & $0$ \\ 
+		\hline 
+		$P_4$ & $\alpha^2$ & $x^2$ & $0$ & $0$ & $1$ \\ 
+		\hline 
+		$P_5$ & $\alpha^6$ & $x^2+1$ & $1$ & $0$ & $1$ \\ 
+		\hline 
+		$P_6$ & $\alpha^4$ & $x^2 + x$ & $0$ & $1$ & $1$ \\ 
+		\hline 
+		$P_7$ & $\alpha^5$ & $x^2 + x +1$ & $1$ & $1$ & $1$ \\ 
+		\hline 
+	\end{tabular} 
+	\caption{Defining tentative elements for $\gf{8}$ using polynomials.}
+\end{table} 
+ 
+\newpage
+ 
+% TODO: add later
+% \subsection{Construction of $\gf{2^m}$ from $\gf{2}$} 
+% \subsection{Some MATLAB codes}
+
+%% BIB
+
+\newpage
+
+\begin{thebibliography}{9}
+	\bibitem{Rao15} 
+	Rao, K. Deergha. \textit{Channel coding techniques for wireless communications.} Springer, 2015.
+	
+	\bibitem{Lin12}
+	Van Lint, Jacobus Hendricus. \textit{Introduction to coding theory.} Vol. 86. Springer Science \& Business Media, 2012.
+	
+\end{thebibliography}
+
+\end{document}
+
