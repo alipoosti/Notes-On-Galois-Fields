@@ -1,0 +1,15 @@
+# Ignore auxiliary LaTeX files
+*.aux
+*.log
+*.out
+*.toc
+*.lot
+*.lof
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Allow .tex, .bib, and .pdf files
+!*.tex
+!*.bib
+!*.pdf
